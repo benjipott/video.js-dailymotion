@@ -29,10 +29,10 @@ videojs.Dailymotion = videojs.MediaTechController.extend({
 
         if (typeof this.videoId != 'undefined') {
             // Show the Dailymotion poster only if we don't use Dailymotion poster (otherwise the controls pop, it's not nice)
-            if (!this.player_.options().dmcontrols) {
+            if (!this.player_.options().dmControls) {
                 // Set the Dailymotion poster only if none is specified
                 if (typeof this.player_.poster() == 'undefined') {
-                    this.player_.poster('http://img.Dailymotion.com/vi/' + this.videoId + '/0.jpg');
+                    this.player_.poster('https://api.dailymotion.com/video/' + this.videoId + '?fields=url');
                 }
 
                 // Cover the entire iframe to have the same poster than Dailymotion
@@ -42,72 +42,73 @@ videojs.Dailymotion = videojs.MediaTechController.extend({
                     self.player_.posterImage.el().style.backgroundSize = 'cover';
                 }, 50);
             }
+        }
 
-            this.id_ = this.player_.id() + '_dailymotion_api';
+        this.id_ = this.player_.id() + '_dailymotion_api';
 
-            this.el_ = videojs.Component.prototype.createEl('iframe', {
-                id: this.id_,
-                className: 'vjs-tech',
-                scrolling: 'no',
-                marginWidth: 0,
-                marginHeight: 0,
-                frameBorder: 0,
-                webkitAllowFullScreen: '',
-                mozallowfullscreen: '',
-                allowFullScreen: ''
-            });
+        this.el_ = videojs.Component.prototype.createEl('iframe', {
+            id: this.id_,
+            className: 'vjs-tech',
+            scrolling: 'no',
+            marginWidth: 0,
+            marginHeight: 0,
+            frameBorder: 0,
+            webkitAllowFullScreen: '',
+            mozallowfullscreen: '',
+            allowFullScreen: ''
+        });
 
-            this.player_el_.insertBefore(this.el_, this.player_el_.firstChild);
+        this.player_el_.insertBefore(this.el_, this.player_el_.firstChild);
 
-            this.params = {
-                id: this.id_,
-                autoplay: (this.player_.options().autoplay) ? 1 : 0,
-                chromeless: 1,
-                html: 1,
-                info: 1,
-                logo: 1,
-                controls: (this.player_.options().dmControls) ? 1 : 0,
-                wmode: 'opaque',
-                format: 'json',
-                url: this.player_.options().src
-            };
+        this.params = {
+            id: this.id_,
+            autoplay: (this.player_.options().autoplay) ? 1 : 0,
+            chromeless: (this.player_.options().dmControls) ? 1 : 0,
+            html: 1,
+            info: 1,
+            logo: 1,
+            controls: 'html',
+            wmode: 'opaque',
+            format: 'json',
+            url: this.player_.options().src
+        };
 
-            if (typeof this.params.list == 'undefined') {
-                delete this.params.list;
-            }
+        if (typeof this.params.list == 'undefined') {
+            delete this.params.list;
+        }
 
-            // Make autoplay work for iOS
-            if (this.player_.options().autoplay) {
-                this.player_.bigPlayButton.hide();
-                this.playOnReady = true;
-            }
+        // Make autoplay work for iOS
+        if (this.player_.options().autoplay) {
+            this.player_.bigPlayButton.hide();
+            this.playOnReady = true;
+        }
 
-            // If we are not on a server, don't specify the origin (it will crash)
-            if (window.location.protocol != 'file:') {
-                this.params.origin = window.location.protocol + '//' + window.location.hostname;
-            }
-
-
-            this.el_.src = 'http://www.dailymotion.com/services/oembed?' + videojs.Dailymotion.makeQueryString(this.params);
+        // If we are not on a server, don't specify the origin (it will crash)
+        if (window.location.protocol != 'file:') {
+            this.params.origin = window.location.protocol + '//' + window.location.hostname;
+        }
 
 
-            if (videojs.Dailymotion.apiReady) {
-                this.loadApi();
-            } else {
-                // Add to the queue because the Dailymotion API is not ready
-                videojs.Dailymotion.loadingQueue.push(this);
+        this.el_.src = 'http://www.dailymotion.com/services/oembed?' + videojs.Dailymotion.makeQueryString(this.params);
 
-                // Load the Dailymotion API if it is the first Dailymotion video
-                if (!videojs.Dailymotion.apiLoading) {
-                    var tag = document.createElement('script');
-                    tag.src = 'http://api.dmcdn.net/all.js';
-                    var firstScriptTag = document.getElementsByTagName('script')[0];
-                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-                    videojs.Dailymotion.apiLoading = true;
-                }
+
+        if (videojs.Dailymotion.apiReady) {
+            this.loadApi();
+        } else {
+            // Add to the queue because the Dailymotion API is not ready
+            videojs.Dailymotion.loadingQueue.push(this);
+
+            // Load the Dailymotion API if it is the first Dailymotion video
+            if (!videojs.Dailymotion.apiLoading) {
+                var tag = document.createElement('script');
+                tag.src = 'http://api.dmcdn.net/all.js';
+                var firstScriptTag = document.getElementsByTagName('script')[0];
+                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+                videojs.Dailymotion.apiLoading = true;
             }
         }
-    });
+    }
+});
 
 videojs.Dailymotion.prototype.params = [];
 
