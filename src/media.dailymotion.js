@@ -18,6 +18,14 @@ videojs.Dailymotion = videojs.MediaTechController.extend({
         this.player_ = player;
         this.player_el_ = document.getElementById(this.player_.id());
 
+        if (typeof this.player_.options().dmControls != 'undefined') {
+            var dmC = this.player_.options().dmControls = parseInt(this.player_.options().dmControls) && this.player_.controls_;
+
+            if (dmC && this.player_.controls_)
+                this.player_.controls(!dmC);
+        }
+
+
         // Copy the Javascript options if they exist
         if (typeof options.source != 'undefined') {
             for (var key in options.source) {
@@ -63,7 +71,7 @@ videojs.Dailymotion = videojs.MediaTechController.extend({
         this.params = {
             id: this.id_,
             autoplay: (this.player_.options().autoplay) ? 1 : 0,
-            chromeless: (this.player_.options().dmControls) ? 1 : 0,
+            chromeless: (this.player_.options().dmControls) ? 0 : 1,
             html: 1,
             info: 1,
             logo: 1,
@@ -183,6 +191,8 @@ videojs.Dailymotion.prototype._duration;
 videojs.Dailymotion.prototype.duration = function () {
     return this.dmPlayer.duration;
 };
+
+
 videojs.Dailymotion.prototype.buffered = function () {
     /*var loadedBytes = this.dmPlayer.getVideoBytesLoaded();
      var totalBytes = this.dmPlayer.getVideoBytesTotal();
@@ -190,8 +200,9 @@ videojs.Dailymotion.prototype.buffered = function () {
 
      var duration = this.dmPlayer.getDuration();
      var secondsBuffered = (loadedBytes / totalBytes) * duration;
-     var secondsOffset = (this.dmPlayer.getVideoStartBytes() / totalBytes) * duration;
-     return videojs.createTimeRange(secondsOffset, secondsOffset + secondsBuffered);  */
+     var secondsOffset = (this.dmPlayer.getCurrentTime() / totalBytes) * duration;
+     return videojs.createTimeRange(secondsOffset, secondsOffset + secondsBuffered);*/
+    return [];
 };
 
 videojs.Dailymotion.prototype.volume = function () {
