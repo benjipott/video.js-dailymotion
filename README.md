@@ -22,3 +22,6 @@ dtControls: Display the Dailymotion controls instead of Video.js.
 
 ##Special Thank You
 Thanks to Benoit Tremblay for the original code https://github.com/eXon/videojs-youtube
+
+##JSFIDDLE Demo
+http://jsfiddle.net/gh/get/library/pure/benjipott/video.js-dailymotion/tree/master/example
