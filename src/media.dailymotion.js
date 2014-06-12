@@ -332,11 +332,13 @@ videojs.Dailymotion.makeQueryString = function (args) {
 };
 
 videojs.Dailymotion.parseVideoId = function (src) {
-// Regex that parse the video ID for any Dailymotion URL
-    var regExp = /^.+dailymotion.com\/((video|hub)\/([^_]+))?[^#]*(#video=([^_&]+))?/;
-    var match = src.match(regExp);
+    if(src) {
+        // Regex that parse the video ID for any Dailymotion URL
+        var regExp = /^.+dailymotion.com\/((video|hub)\/([^_]+))?[^#]*(#video=([^_&]+))?/;
+        var match = src.match(regExp);
 
-    return match ? match[5] || match[3] : null;
+        return match ? match[5] || match[3] : null;
+    }
 };
 
 videojs.Dailymotion.parsePlaylist = function (src) {
