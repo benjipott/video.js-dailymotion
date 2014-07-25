@@ -1,3 +1,4 @@
+/* global videojs, DM */
 /**
  * @fileoverview Dailymotion Media Controller - Wrapper for Dailymotion Media API
  */
@@ -16,30 +17,35 @@ videojs.Dailymotion = videojs.MediaTechController.extend({
         this.features.fullscreenResize = true;
 
         this.player_ = player;
-        this.player_el_ = document.getElementById(this.player_.id());
+        this.playerEl_ = document.getElementById(this.player_.id());
 
-        if (typeof this.player_.options().dmControls != 'undefined') {
-            var dmC = this.player_.options().dmControls = parseInt(this.player_.options().dmControls) && this.player_.controls_;
+        if (typeof this.player_.options().dmControls !== 'undefined') {
+            var dmC = this.player_.options().dmControls = parseInt(this.player_.options().dmControls) &&
+              this.player_.controls_;
 
-            if (dmC && this.player_.controls_)
+            if (dmC && this.player_.controls_) {
                 this.player_.controls(!dmC);
+            }
         }
 
 
         // Copy the Javascript options if they exist
-        if (typeof options.source != 'undefined') {
+        if (typeof options.source !== 'undefined') {
             for (var key in options.source) {
-                this.player_.options()[key] = options.source[key];
+                if(options['source'].hasOwnProperty(key)) {
+                    this.player_.options()[key] = options.source[key];
+                }
             }
         }
 
         this.videoId = videojs.Dailymotion.parseVideoId(this.player_.options().src);
 
-        if (typeof this.videoId != 'undefined') {
-            // Show the Dailymotion poster only if we don't use Dailymotion poster (otherwise the controls pop, it's not nice)
+        if (typeof this.videoId !== 'undefined') {
+            // Show the Dailymotion poster only if we don't use Dailymotion poster
+            // (otherwise the controls pop, it's not nice)
             if (!this.player_.options().dmControls) {
                 // Set the Dailymotion poster only if none is specified
-                if (typeof this.player_.poster() == 'undefined') {
+                if (typeof this.player_.poster() === 'undefined') {
                     this.player_.poster('https://api.dailymotion.com/video/' + this.videoId + '?fields=url');
                 }
 
@@ -66,7 +72,7 @@ videojs.Dailymotion = videojs.MediaTechController.extend({
             allowFullScreen: ''
         });
 
-        this.player_el_.insertBefore(this.el_, this.player_el_.firstChild);
+        this.playerEl_.insertBefore(this.el_, this.playerEl_.firstChild);
 
         this.params = {
             id: this.id_,
@@ -81,7 +87,7 @@ videojs.Dailymotion = videojs.MediaTechController.extend({
             url: this.player_.options().src
         };
 
-        if (typeof this.params.list == 'undefined') {
+        if (typeof this.params.list === 'undefined') {
             delete this.params.list;
         }
 
@@ -92,7 +98,7 @@ videojs.Dailymotion = videojs.MediaTechController.extend({
         }
 
         // If we are not on a server, don't specify the origin (it will crash)
-        if (window.location.protocol != 'file:') {
+        if (window.location.protocol !== 'file:') {
             this.params.origin = window.location.protocol + '//' + window.location.hostname;
         }
 
@@ -163,7 +169,7 @@ videojs.Dailymotion.prototype.ended = function () {
 
     if (this.isReady_) {
         var stateId = this.dmPlayer.getPlayerState();
-        return stateId == 0;
+        return stateId === 0;
     } else {
         // We will play it when the API will be ready
         return false;
@@ -187,7 +193,6 @@ videojs.Dailymotion.prototype.setCurrentTime = function (seconds) {
     this.player_.trigger('timeupdate');
 };
 
-videojs.Dailymotion.prototype._duration;
 videojs.Dailymotion.prototype.duration = function () {
     return this.dmPlayer.duration;
 };
@@ -214,7 +219,7 @@ videojs.Dailymotion.prototype.volume = function () {
 };
 
 videojs.Dailymotion.prototype.setVolume = function (percentAsDecimal) {
-    if (percentAsDecimal && percentAsDecimal != this.volumeVal) {
+    if (percentAsDecimal && percentAsDecimal !== this.volumeVal) {
         this.dmPlayer.volume = percentAsDecimal;
         this.volumeVal = percentAsDecimal;
         this.player_.trigger('volumechange');
@@ -257,7 +262,7 @@ videojs.Dailymotion.prototype.supportsFullScreen = function () {
 };
 
 videojs.Dailymotion.canPlaySource = function (srcObj) {
-    return (srcObj.type == 'video/dailymotion');
+    return (srcObj.type === 'video/dailymotion');
 };
 
 // All videos created before Dailymotion API is loaded
@@ -281,7 +286,7 @@ videojs.Dailymotion.prototype.loadApi = function () {
 
 videojs.Dailymotion.prototype.onStateChange = function (event) {
     var state = event.type;
-    if (state != this.lastState) {
+    if (state !== this.lastState) {
         switch (state) {
             case -1:
                 this.player_.trigger('durationchange');
@@ -346,7 +351,7 @@ videojs.Dailymotion.parsePlaylist = function (src) {
     var regExp = /[?&]list=([^#\&\?]+)/;
     var match = src.match(regExp);
 
-    if (match != null && match.length > 1) {
+    if (match !== null && match.length > 1) {
         return match[1];
     }
 };
@@ -367,7 +372,8 @@ videojs.Dailymotion.prototype.eventHandler = function (e) {
 };
 
 // List of all HTML5 events (various uses).
-videojs.Dailymotion.Events = 'apiready,play,playing,pause,ended,canplay,canplaythrough,timeupdate,progress,seeking,seeked,volumechange,durationchange,fullscreenchange,error'.split(',');
+videojs.Dailymotion.Events = 'apiready,play,playing,pause,ended,canplay,' +
+  'canplaythrough,timeupdate,progress,seeking,seeked,volumechange,durationchange,fullscreenchange,error'.split(',');
 
 
 // Called when Dailymotion API is ready to be used
@@ -379,5 +385,5 @@ window.dmAsyncInit = function () {
     }
     videojs.Dailymotion.loadingQueue = [];
     videojs.Dailymotion.apiReady = true;
-}
+};
 
