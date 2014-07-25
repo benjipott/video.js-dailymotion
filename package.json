@@ -1,0 +1,14 @@
+{
+  "name": "videojs-dailymotion",
+  "description": "dailymotion playback technology for Video.js",
+  "version": "1.0.0",
+  "author": "Benjamin Pott",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/benjipott/video.js-dailymotion"
+  },
+  "devDependencies": {
+  },
+  "scripts": {
+  }
+}
