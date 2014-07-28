@@ -2,6 +2,12 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+    jshint: {
+      options: {
+        jshintrc: true
+      },
+      all: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js']
+    },
     uglify: {
       vjsdailymotion: {
         options: {
@@ -14,7 +20,8 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.registerTask('default', ['uglify']);
+  grunt.registerTask('default', ['jshint', 'uglify']);
 
 };
