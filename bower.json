@@ -7,8 +7,6 @@
     "examples",
     ".editorconfig",
     ".gitignore",
-    "bower.json",
-    "package.json",
     "README.md"
   ],
   "dependencies": {
