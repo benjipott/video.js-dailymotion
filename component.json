@@ -1,0 +1,12 @@
+{
+  "name": "videojs-dailymotion",
+  "description": "Dailymotion playback technology for Video.js",
+  "version": "1.0.0",
+  "scripts": ["dist/vjs.dailymotion.js"],
+  "main": "dist/vjs.dailymotion.js",
+  "license": "MIT",
+  "repository": "benjipott/videojs-dailymotion",
+  "dependencies": {
+    "videojs/video.js": "4.6.4"
+  }
+}
