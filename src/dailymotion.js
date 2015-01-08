@@ -12,6 +12,15 @@
    * @param {Function=} ready
    * @constructor
    */
+
+  function addEventListener(element, event, cb) {
+    if (!element.addEventListener) {
+      element.attachEvent(event, cb);
+    } else {
+      element.addEventListener(event, cb, true);
+    }
+  }
+  
   videojs.Dailymotion = videojs.MediaTechController.extend({
     /** @constructor */
     init: function (player, options, ready) {
@@ -172,8 +181,10 @@
 
   videojs.Dailymotion.prototype.addIframeBlocker = function (ieVersion) {
 
-    if (this.player_.options().dmControls) return false;
-    
+    if (this.player_.options().dmControls) {
+      return false;
+    }
+
     this.iframeblocker = videojs.Component.prototype.createEl('div');
 
     this.iframeblocker.className = 'iframeblocker';
@@ -192,6 +203,7 @@
     }
 
     var self = this;
+
     addEventListener(this.iframeblocker, 'mousemove', function (e) {
       if (!self.player_.userActive()) {
         self.player_.userActive(true);
