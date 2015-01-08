@@ -20,7 +20,7 @@
       element.addEventListener(event, cb, true);
     }
   }
-  
+
   videojs.Dailymotion = videojs.MediaTechController.extend({
     /** @constructor */
     init: function (player, options, ready) {

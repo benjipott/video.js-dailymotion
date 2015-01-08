@@ -86,7 +86,7 @@ module.exports = function (grunt) {
           },
           {
             src: [
-              '<%= vjsPath %>/video.css'
+              '<%= vjsPath %>/video-js.css'
             ],
             dest: 'example/demo.css'
           }
