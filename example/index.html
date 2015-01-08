@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Video.js | Dailymotion HTML5 Video Player</title>
-    <link href="../lib/video-js.css" rel="stylesheet" type="text/css">
-    <script src="../lib/video.dev.js"></script>
-    <script src="../vjs.dailymotion.js"></script>
-    <!-- For debugging
-    <script src="../src/media.dailymotion.js"></script>-->
-    <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
-    <script>
-        videojs.options.flash.swf = "../lib/video-js.swf";
-    </script>
+  <title>Video.js | Dailymotion HTML5 Video Player</title>
+  <script src="//localhost:35729/livereload.js"></script>
+  <link href="../bower_components/video.js/dist/video-js/video-js.css" rel="stylesheet" type="text/css">
+  <script src="../bower_components/video.js/dist/video-js/video.dev.js"></script>
+  <script src="../src/dailymotion.js"></script>
+  <!-- For debugging
+  <script src="../src/dailymotion.js"></script>-->
+  <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
+  <script>
+    videojs.options.flash.swf = "../bower_components/video.js/dist/video-js/video-js.swf";
+  </script>
 </head>
 <body>
 <video id="vid1" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360"
-       data-setup='{ "techOrder": ["dailymotion"], "dmControls" : "0", "src": "http://www.dailymotion.com/video/xg3b7m_meetbuck_creation" }'></video>
+       data-setup='{ "techOrder": ["dailymotion"], "dmControls" : "1", "src": "http://www.dailymotion.com/video/xg3b7m_meetbuck_creation" }'></video>
 </body>
 </html>
