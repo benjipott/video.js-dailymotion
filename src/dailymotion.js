@@ -116,6 +116,7 @@
         logo: 1,
         controls: 'html',
         wmode: 'opaque',
+        'webkit-playsinline': 1,
         format: 'json',
         url: this.player_.options().src
       };
