@@ -331,7 +331,7 @@
   };
 
   videojs.Dailymotion.prototype.setVolume = function (percentAsDecimal) {
-    if (percentAsDecimal && percentAsDecimal !== this.volumeVal) {
+    if (typeof(percentAsDecimal) !== 'undefined' && percentAsDecimal !== this.volumeVal) {
       this.dmPlayer.setVolume(percentAsDecimal);
       this.volumeVal = percentAsDecimal;
       this.player_.trigger('volumechange');
