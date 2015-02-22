@@ -83,7 +83,7 @@
             // Doesn't exist right away because the DOM hasn't created it
             setTimeout(function () {
               var posterEl = self.playerEl_.querySelectorAll('.vjs-poster')[0];
-              posterEl.style.backgroundImage = 'url(https://api.dailymotion.com/video/' + self.videoId + '?fields=url&ads=false)';
+              posterEl.style.backgroundImage = 'url(//api.dailymotion.com/video/' + self.videoId + '?fields=url&ads=false)';
               posterEl.style.display = '';
               posterEl.style.backgroundSize = 'cover';
             }, 100);
@@ -145,7 +145,7 @@
       }
 
 
-      this.el_.src = 'https://www.dailymotion.com/services/oembed?' + videojs.Dailymotion.makeQueryString(this.params);
+      this.el_.src = '//www.dailymotion.com/services/oembed?' + videojs.Dailymotion.makeQueryString(this.params);
 
       if (videojs.Dailymotion.apiReady) {
         this.loadApi();
@@ -159,7 +159,7 @@
           tag.onerror = function (e) {
             self.onError(e);
           };
-          tag.src = 'https://api.dmcdn.net/all.js';
+          tag.src = '//api.dmcdn.net/all.js';
           var firstScriptTag = document.getElementsByTagName('script')[0];
           firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
           videojs.Dailymotion.apiLoading = true;
