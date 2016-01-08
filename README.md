@@ -18,7 +18,7 @@ Here is an example:
 	<video id="vid1" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" data-setup='{ "techOrder": ["dailymotion"], "src": "http://www.dailymotion.com/video/xxxasl_fail-compilation-february-2013-tnl_fun" }'></video>
 
 ## Additional Informations
-dtControls: Display the Dailymotion controls instead of Video.js.
+dmControls: Display the Dailymotion controls instead of Video.js.
 
 ##Special Thank You
 Thanks to Benoit Tremblay for the original code https://github.com/eXon/videojs-youtube
