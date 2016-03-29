@@ -25,7 +25,7 @@
     "start": "npm-run-all -p start:serve",
     "start:serve": "babel-node --optional es7.functionBind,es7.classProperties,es7.decorators  scripts/server.js",
     "pretest": "npm-run-all build:test",
-    "test": "karma start test/karma/detected.js",
+    "test": "karma start --single-run test/karma/detected.js",
     "test:chrome": "npm run pretest && karma start test/karma/chrome.js",
     "test:firefox": "npm run pretest && karma start test/karma/firefox.js",
     "test:ie": "npm run pretest && karma start test/karma/ie.js",
@@ -121,7 +121,6 @@
     ]
   },
   "dependencies": {
-    "global": "^4.3.0",
     "object.assign": "^4.0.3",
     "video.js": "^5.0.0"
   }

@@ -965,7 +965,7 @@ var Dailymotion = (function (_Tech) {
 
     if (typeof this.videoId !== 'undefined') {
       this.setTimeout(function () {
-        _this.setPoster('//api.dailymotion.com/video/' + _this.videoId + '?fields=url&ads=false');
+        _this.setPoster('//api.dailymotion.com/video/' + _this.videoId + '?fields=poster_url&ads=false');
       }, 100);
     }
 

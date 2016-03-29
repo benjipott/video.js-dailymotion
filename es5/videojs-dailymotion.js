@@ -38,6 +38,8 @@ var Dailymotion = (function (_Tech) {
   _inherits(Dailymotion, _Tech);
 
   function Dailymotion(options, ready) {
+    var _this = this;
+
     _classCallCheck(this, Dailymotion);
 
     _get(Object.getPrototypeOf(Dailymotion.prototype), 'constructor', this).call(this, options, ready);
@@ -51,17 +53,22 @@ var Dailymotion = (function (_Tech) {
       logo: 1,
       controls: 'html',
       wmode: 'opaque',
-      format: 'json'
+      format: 'json',
+      url: options.source.src
     };
 
-    var videoId = this.parseSrc(options.source.src);
     // If we are not on a server, don't specify the origin (it will crash)
     if (window.location.protocol !== 'file:') {
       this.params.origin = window.location.protocol + '//' + window.location.hostname;
     }
 
-    var src = '//www.dailymotion.com/embed/video/' + videoId;
-    this.el_.src = src;
+    this.videoId = this.parseSrc(options.source.src);
+
+    if (typeof this.videoId !== 'undefined') {
+      this.setTimeout(function () {
+        _this.setPoster('//api.dailymotion.com/video/' + _this.videoId + '?fields=poster_url&ads=false');
+      }, 100);
+    }
 
     if (Dailymotion.isApiReady) {
       this.loadApi();
@@ -111,9 +118,8 @@ var Dailymotion = (function (_Tech) {
   }, {
     key: 'loadApi',
     value: function loadApi() {
-
       this.dmPlayer = new DM.player(this.options_.techId, {
-        video: this.src_,
+        video: this.videoId,
         width: this.options_.width,
         height: this.options_.height,
         params: this.params
@@ -158,17 +164,24 @@ var Dailymotion = (function (_Tech) {
       if (state !== this.lastState) {
         switch (state) {
           case -1:
-            this.player_.trigger('durationchange');
             break;
 
           case 'apiready':
             this.triggerReady();
             break;
 
-          case 'ended':
-            if (!this.player_.options().dmControls) {
-              this.player_.bigPlayButton.show();
-            }
+          case 'video_end':
+            this.trigger('ended');
+            break;
+
+          case 'ad_play':
+            this.trigger('play');
+            break;
+
+          case 'video_start':
+          case 'ad_start':
+            this.trigger('playing');
+            this.trigger('play');
             break;
 
           case 'play':
@@ -191,6 +204,17 @@ var Dailymotion = (function (_Tech) {
 
         this.lastState = state;
       }
+    }
+  }, {
+    key: 'poster',
+    value: function poster() {
+      return this.poster_;
+    }
+  }, {
+    key: 'setPoster',
+    value: function setPoster(poster) {
+      this.poster_ = poster;
+      this.trigger('posterchange');
     }
 
     /**
@@ -255,8 +279,7 @@ var Dailymotion = (function (_Tech) {
   }, {
     key: 'setCurrentTime',
     value: function setCurrentTime(position) {
-      this.dmPlayer.seek(position, true);
-      this.player_.trigger('timeupdate');
+      this.dmPlayer.seek(position);
     }
   }, {
     key: 'duration',
@@ -271,6 +294,28 @@ var Dailymotion = (function (_Tech) {
       }
 
       return this.volume_;
+    }
+
+    /**
+     * Request to enter fullscreen
+     *
+     * @method enterFullScreen
+     */
+  }, {
+    key: 'enterFullScreen',
+    value: function enterFullScreen() {
+      this.dmPlayer.setFullscreen(true);
+    }
+
+    /**
+     * Request to exit fullscreen
+     *
+     * @method exitFullScreen
+     */
+  }, {
+    key: 'exitFullScreen',
+    value: function exitFullScreen() {
+      this.dmPlayer.setFullscreen(false);
     }
   }, {
     key: 'setVolume',
@@ -483,7 +528,7 @@ Dailymotion.prototype['featuresNativeAudioTracks'] = true;
  */
 Dailymotion.prototype['featuresNativeVideoTracks'] = false;
 
-Dailymotion.Events = 'apiready,play,playing,pause,ended,canplay,canplaythrough,timeupdate,progress,seeking,seeked,volumechange,durationchange,fullscreenchange,error'.split(',');
+Dailymotion.Events = 'apiready,ad_play,ad_start,ad_timeupdate,ad_pause,ad_end,video_start,video_end,play,playing,pause,ended,canplay,canplaythrough,timeupdate,progress,seeking,seeked,volumechange,durationchange,fullscreenchange,error'.split(',');
 
 _videoJs2['default'].options.Dailymotion = {};
 

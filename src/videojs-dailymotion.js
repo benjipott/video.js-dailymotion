@@ -42,7 +42,7 @@ class Dailymotion extends Tech {
 
     if (typeof this.videoId !== 'undefined') {
       this.setTimeout(() => {
-        this.setPoster('//api.dailymotion.com/video/' + this.videoId + '?fields=url&ads=false');
+        this.setPoster('//api.dailymotion.com/video/' + this.videoId + '?fields=poster_url&ads=false');
       }, 100);
     }
 
