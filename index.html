@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head data-cast-api-enabled="true">
+  <meta charset="utf-8">
+  <title>videojs-dailymotion Demo</title>
+  <link href="/node_modules/video.js/dist/video-js.css" rel="stylesheet">
+  <script src="/node_modules/video.js/dist/video.js"></script>
+  <script src="/dist/videojs-dailymotion.js"></script>
+</head>
+<body>
+<video class="video-js vjs-default-skin" controls width="640px" height="360px" crossorigin="anonymous"
+>
+  <source src="http://www.dailymotion.com/video/xg3b7m_meetbuck_creation" type="video/dailymotion">
+</video>
+<ul>
+  <li><a href="/test/">Run unit tests in browser.</a></li>
+</ul>
+<!-- dailymotion sdk -->
+<script>
+
+  var player = videojs(document.querySelector('video'), {
+    language: 'fr',
+    techOrder: ['dailymotion']
+  }).toJSON();
+
+</script>
+</body>
+</html>
