@@ -1,3 +1,15 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Video.js - Dailymotion Source Support](#videojs---dailymotion-source-support)
+  - [How does it work?](#how-does-it-work)
+  - [Additional Informations](#additional-informations)
+  - [Special Thank You](#special-thank-you)
+  - [JSFIDDLE Demo](#jsfiddle-demo)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Video.js - Dailymotion Source Support
 Allows you to use Dailymotion URL as source with [Video.js](https://github.com/zencoder/video-js/).
 
