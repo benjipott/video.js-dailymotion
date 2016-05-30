@@ -66,7 +66,7 @@ var Dailymotion = (function (_Tech) {
 
     if (typeof this.videoId !== 'undefined') {
       this.setTimeout(function () {
-        _this.setPoster('//api.dailymotion.com/video/' + _this.videoId + '?fields=poster_url&ads=false');
+        _this.setPoster('https://api.dailymotion.com/video/' + _this.videoId + '?fields=thumbnail_large_url');
       }, 100);
     }
 
@@ -213,8 +213,15 @@ var Dailymotion = (function (_Tech) {
   }, {
     key: 'setPoster',
     value: function setPoster(poster) {
-      this.poster_ = poster;
-      this.trigger('posterchange');
+
+        var baseClass = this;
+        $.getJSON(poster, function(data) {
+            // Set the low resolution first
+            baseClass.poster_ = data.thumbnail_large_url;
+            console.log(baseClass.poster_);
+            baseClass.trigger('posterchange');
+        });
+      
     }
 
     /**
