@@ -57,6 +57,10 @@ var Dailymotion = (function (_Tech) {
       url: options.source.src
     };
 
+    setTimeout(function() {
+        this.el_.parentNode.className += ' vjs-dailymotion';
+    }.bind(this));
+
     // If we are not on a server, don't specify the origin (it will crash)
     if (window.location.protocol !== 'file:') {
       this.params.origin = window.location.protocol + '//' + window.location.hostname;
