@@ -118,6 +118,16 @@ var Dailymotion = (function (_Tech) {
   }, {
     key: 'loadApi',
     value: function loadApi() {
+
+      var baseObjectLoader = this;
+
+      if (document.getElementById(this.options_.techId) == null) {
+        setTimeout(function() {
+          baseObjectLoader.loadApi();
+        }, 50);
+        return null;
+      }
+
       this.dmPlayer = new DM.player(this.options_.techId, {
         video: this.videoId,
         width: this.options_.width,
@@ -218,7 +228,6 @@ var Dailymotion = (function (_Tech) {
         $.getJSON(poster, function(data) {
             // Set the low resolution first
             baseClass.poster_ = data.thumbnail_large_url;
-            console.log(baseClass.poster_);
             baseClass.trigger('posterchange');
         });
       
