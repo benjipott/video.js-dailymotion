@@ -57,6 +57,10 @@ var Dailymotion = (function (_Tech) {
       url: options.source.src
     };
 
+    setTimeout(function() {
+        this.el_.parentNode.className += ' vjs-dailymotion';
+    }.bind(this));
+
     // If we are not on a server, don't specify the origin (it will crash)
     if (window.location.protocol !== 'file:') {
       this.params.origin = window.location.protocol + '//' + window.location.hostname;
@@ -66,7 +70,7 @@ var Dailymotion = (function (_Tech) {
 
     if (typeof this.videoId !== 'undefined') {
       this.setTimeout(function () {
-        _this.setPoster('//api.dailymotion.com/video/' + _this.videoId + '?fields=poster_url&ads=false');
+        _this.setPoster('https://api.dailymotion.com/video/' + _this.videoId + '?fields=thumbnail_large_url');
       }, 100);
     }
 
@@ -118,6 +122,16 @@ var Dailymotion = (function (_Tech) {
   }, {
     key: 'loadApi',
     value: function loadApi() {
+
+      var baseObjectLoader = this;
+
+      if (document.getElementById(this.options_.techId) == null) {
+        setTimeout(function() {
+          baseObjectLoader.loadApi();
+        }, 50);
+        return null;
+      }
+
       this.dmPlayer = new DM.player(this.options_.techId, {
         video: this.videoId,
         width: this.options_.width,
@@ -213,8 +227,14 @@ var Dailymotion = (function (_Tech) {
   }, {
     key: 'setPoster',
     value: function setPoster(poster) {
-      this.poster_ = poster;
-      this.trigger('posterchange');
+
+        var baseClass = this;
+        $.getJSON(poster, function(data) {
+            // Set the low resolution first
+            baseClass.poster_ = data.thumbnail_large_url;
+            baseClass.trigger('posterchange');
+        });
+      
     }
 
     /**
